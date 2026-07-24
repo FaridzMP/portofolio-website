@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Dark theme (default) */
+  --color-ink: 10 10 15;
+  --color-ink-soft: 18 18 26;
+  --color-ink-muted: 28 28 40;
+  --color-ash: 136 136 160;
+  --color-ash-light: 170 170 192;
+  --color-ash-faint: 51 51 72;
+  --color-cream: 245 240 232;
+  --color-cream-warm: 237 232 220;
+  --color-accent: 232 197 71;
+  --color-accent-warm: 240 168 48;
+  --color-accent-cool: 71 197 232;
+}
+
+.light {
+  /* Light theme — ink jadi background terang, cream jadi teks gelap */
+  --color-ink: 245 240 232;
+  --color-ink-soft: 255 255 255;
+  --color-ink-muted: 237 232 220;
+  --color-ash: 100 100 122;
+  --color-ash-light: 70 70 92;
+  --color-ash-faint: 222 216 204;
+  --color-cream: 15 15 20;
+  --color-cream-warm: 32 30 26;
+  --color-accent: 196 148 20;
+  --color-accent-warm: 205 128 18;
+  --color-accent-cool: 28 138 178;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-ink text-cream transition-colors duration-300;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0A0F;
+}
+::-webkit-scrollbar-thumb {
+  background: #333348;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E8C547;
+}
+
+/* Selection color */
+::selection {
+  background: #E8C547;
+  color: #0A0A0F;
+}
+
+/* Noise texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+@layer components {
+  .section-title {
+    @apply font-display text-4xl md:text-5xl font-semibold text-cream mb-4;
+    font-variation-settings: 'opsz' 40, 'SOFT' 60, 'WONK' 0;
+    letter-spacing: -0.01em;
+  }
+
+  .section-subtitle {
+    @apply text-ash-light text-lg font-body max-w-2xl;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-accent text-ink font-body font-medium 
+           text-sm tracking-wide transition-all duration-300 
+           hover:bg-accent-warm hover:scale-105 active:scale-95;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center gap-2 px-6 py-3 border border-ash-faint text-cream font-body font-medium 
+           text-sm tracking-wide transition-all duration-300 
+           hover:border-accent hover:text-accent hover:scale-105 active:scale-95;
+  }
+
+  .card {
+    @apply bg-ink-soft border border-ash-faint/30 p-6 transition-all duration-300
+           hover:border-accent/40 hover:-translate-y-1;
+  }
+
+  .tag {
+    @apply inline-block px-3 py-1 text-xs font-mono text-accent-cool bg-accent-cool/10 
+           border border-accent-cool/20 tracking-wider;
+  }
+}
