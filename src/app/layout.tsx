@@ -19,6 +19,11 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  icons: {
+    icon: '/images/F.MP.png',
+    shortcut: '/images/F.MP.png',
+    apple: '/images/F.MP.png',
+  },
 }
 
 const fraunces = Fraunces({
