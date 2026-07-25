@@ -3,9 +3,10 @@
 import { useState } from 'react'
 import { FiMail, FiGithub, FiLinkedin, FiInstagram, FiSend, FiMapPin } from 'react-icons/fi'
 import { OWNER } from '@/lib/constants'
+import { sendContactForm, type ContactFormData } from '@/lib/contact'
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', message: '', honeypot: '' })
+  const [form, setForm] = useState<ContactFormData>({ name: '', email: '', message: '', honeypot: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
 
@@ -18,27 +19,18 @@ export default function Contact() {
     setStatus('sending')
     setErrorMsg('')
 
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      })
+    const result = await sendContactForm(form)
 
-      const data = await res.json()
-
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || 'Gagal mengirim pesan')
-      }
-
-      setStatus('sent')
-      setForm({ name: '', email: '', message: '', honeypot: '' })
-      setTimeout(() => setStatus('idle'), 4000)
-    } catch (err) {
+    if (!result.success) {
       setStatus('error')
-      setErrorMsg(err instanceof Error ? err.message : 'Terjadi kesalahan')
+      setErrorMsg(result.error || 'Terjadi kesalahan')
       setTimeout(() => setStatus('idle'), 4000)
+      return
     }
+
+    setStatus('sent')
+    setForm({ name: '', email: '', message: '', honeypot: '' })
+    setTimeout(() => setStatus('idle'), 4000)
   }
 
   return (
